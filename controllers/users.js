@@ -2,7 +2,7 @@ const Users = require("../model/users");
 const HttpCode = require("../helpers/constants");
 require("dotenv").config();
 
-const signup = async (req, res, next) => {
+const review = async (req, res, next) => {
   const { email } = req.body;
   const user = await Users.findByEmail(email);
   if (user) {
@@ -34,6 +34,34 @@ const signup = async (req, res, next) => {
   }
 };
 
+const current = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const user = await Users.getCurrentUser(userId);
+    console.log(user);
+    if (user) {
+      return res.json({
+        status: "success",
+        code: HttpCode.OK,
+        user: {
+          name: user.name,
+          email: user.email,
+          message: user.message,
+        },
+      });
+    } else {
+      return res.status(HttpCode.UNAUTHORIZED).json({
+        status: "error",
+        code: HttpCode.UNAUTHORIZED,
+        message: "Not authorized",
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
-  signup,
+  review,
+  current,
 };

@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const ctrl = require("../../controllers/users");
-const { validationCreateUser } = require("./validation");
+const { validationCreateReview } = require("./validation");
 
-router.post("/signup", validationCreateUser, ctrl.signup);
+router.get("/current", ctrl.current);
+router.post("/review", validationCreateReview, ctrl.review);
 
 module.exports = router;

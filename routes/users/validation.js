@@ -1,22 +1,10 @@
 const Joi = require("joi");
 const HttpCode = require("../../helpers/constants");
 
-const schemaSignup = Joi.object({
+const schemaSendReview = Joi.object({
   name: Joi.string().min(1).max(25).required(),
   // password: Joi.string().min(6).max(15).required(),
   message: Joi.string().min(1).max(150).required(),
-  email: Joi.string()
-    .email({
-      minDomainSegments: 2,
-      tlds: { allow: ["com", "net", "ua", "ru"] },
-    })
-    .required(),
-});
-
-const schemaLogin = Joi.object({
-  name: Joi.string().min(1).max(25).required(),
-  // password: Joi.string().min(3).max(30).required(),
-  message: Joi.string().min(1).max(15).required(),
   email: Joi.string()
     .email({
       minDomainSegments: 2,
@@ -39,10 +27,7 @@ const validate = async (schema, obj, next) => {
 };
 
 module.exports = {
-  validationCreateUser: async (req, res, next) => {
-    return await validate(schemaSignup, req.body, next);
-  },
-  validationLoginUser: async (req, res, next) => {
-    return await validate(schemaLogin, req.body, next);
+  validationCreateReview: async (req, res, next) => {
+    return await validate(schemaSendReview, req.body, next);
   },
 };
